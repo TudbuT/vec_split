@@ -4,6 +4,7 @@ version = "0.1.2"
 edition = "2021"
 description = "Splits arrays of vectors into arrays of items."
 license = "MIT"
+repository = "https://github.com/tudbut/vec_split"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
