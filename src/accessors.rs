@@ -1,11 +1,14 @@
-use std::marker::PhantomData;
+use std::{
+    marker::PhantomData,
+    ops::{Index, IndexMut},
+};
 
 use crate::iter::*;
 
-pub trait Accessor<T: ?Sized, I> {
+pub trait Accessor<T: ?Sized, I>: Index<I, Output = T> {
     fn get<'b>(&'b self, index: I) -> Option<&'b T>;
 }
-pub trait AccessorMut<T: ?Sized, I>: Accessor<T, I> {
+pub trait AccessorMut<T: ?Sized, I>: Accessor<T, I> + IndexMut<I, Output = T> {
     fn get_mut<'b>(&'b mut self, index: I) -> Option<&'b mut T>;
 }
 

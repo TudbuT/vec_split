@@ -4,7 +4,7 @@ mod impls;
 mod iter;
 pub mod safe_accessor;
 
-use std::{fmt::Debug, mem};
+use std::mem;
 
 use accessors::*;
 use fast_accessor::*;

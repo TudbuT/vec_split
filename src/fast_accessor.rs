@@ -62,8 +62,7 @@ impl<'a, T: Sized, const D: usize, V: RawVector<T, D>, I, VA: SizedVectorArray<T
     type Output = T;
 
     fn index(&self, index: I) -> &Self::Output {
-        self.get(index)
-            .expect("index {index:?} is too large for array.")
+        self.get(index).expect("index is too large for array.")
     }
 }
 
@@ -139,8 +138,7 @@ impl<'a, T: Sized, const D: usize, V: RawVector<T, D>, I, VA: SizedVectorArray<T
     type Output = T;
 
     fn index(&self, index: I) -> &Self::Output {
-        self.get(index)
-            .expect("index {index:?} is too large for array.")
+        self.get(index).expect("index is too large for array.")
     }
 }
 
@@ -148,7 +146,6 @@ impl<'a, T: Sized, const D: usize, V: RawVector<T, D>, I, VA: SizedVectorArray<T
     IndexMut<I> for FastAccessorMut<'a, T, D, V, I, VA>
 {
     fn index_mut(&mut self, index: I) -> &mut Self::Output {
-        self.get_mut(index)
-            .expect("index {index:?} is too large for array.")
+        self.get_mut(index).expect("index is too large for array.")
     }
 }
