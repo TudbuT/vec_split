@@ -5,6 +5,9 @@ use std::{
 
 use crate::*;
 
+/// The immutable fast accessor. Contains a reference to the array, and the
+/// dimension to get from the vectors. Unlike the Fast accessor, this can be
+/// used for **ALL** types of vectors and arrays.
 pub struct SafeAccessor<
     'a,
     T: ?Sized,
@@ -52,6 +55,9 @@ impl<'a, T: ?Sized, const D: usize, V: Vector<T, D>, I, VA: VectorArray<T, D, V,
     }
 }
 
+/// The mutable fast accessor. Contains a mutable reference to the array, and
+/// the dimension to get from the vectors. Unlike the Fast accessor, this can
+/// be used for **ALL** types of vectors and arrays.
 pub struct SafeAccessorMut<
     'a,
     T: ?Sized,

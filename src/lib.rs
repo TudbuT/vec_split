@@ -11,11 +11,15 @@ use accessors::*;
 use fast_accessor::*;
 use safe_accessor::*;
 
+/// Trait to be implemented for all types that are vector-like. For example,
+/// arrays, tuples, vecs, etc.
 pub trait Vector<T: ?Sized, const D: usize> {
     fn get<'a>(&'a self, i: usize) -> Option<&'a T>;
     fn get_mut<'a>(&'a mut self, i: usize) -> Option<&'a mut T>;
 }
 
+/// Trait to be implemented for all types that are arrays of some sort and
+/// contain only vectors.
 pub trait VectorArray<T: ?Sized, const D: usize, V: Vector<T, D>, I>: Sized {
     fn get<'a>(&'a self, index: I) -> Option<&'a V>;
     fn get_mut<'a>(&'a mut self, index: I) -> Option<&'a mut V>;
@@ -43,6 +47,9 @@ pub trait VectorArray<T: ?Sized, const D: usize, V: Vector<T, D>, I>: Sized {
     }
 }
 
+/// Trait to be implemented for all types that are arrays of some sort, contain
+/// only vectors, **and have a way to access their internal pointers**. Used to
+/// allow the use of [`FastAccessor`]s.
 pub trait SizedVectorArray<T: Sized, const D: usize, V: RawVector<T, D>, I>:
     VectorArray<T, D, V, I>
 {
@@ -78,6 +85,9 @@ pub trait SizedVectorArray<T: Sized, const D: usize, V: RawVector<T, D>, I>:
     }
 }
 
+/// Trait used to show that a vector-like type is guaranteed to have a
+/// consistent and usable-for-pointers memory layout.
+///
 /// # Safety
 ///
 /// MUST have no extra items before first dimension in memory, MUST

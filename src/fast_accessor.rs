@@ -8,6 +8,8 @@ use std::{
 
 use crate::*;
 
+/// The immutable fast accessor. Contains a reference to the array, and the
+/// dimension to get from the vectors.
 pub struct FastAccessor<
     'a,
     T: Sized,
@@ -49,7 +51,8 @@ impl<'a, T: Sized, const D: usize, V: RawVector<T, D>, I, VA: SizedVectorArray<T
         // the first dimension MUST be at the memory offset of the object, and it MUST not have padding
         // in-between dimensions
         unsafe {
-            (self.array_ref.ptr().add(idx) as *const T).add(self.dim)
+            (self.array_ref.ptr().add(idx) as *const T)
+                .add(self.dim)
                 .as_ref()
         }
     }
@@ -65,6 +68,8 @@ impl<'a, T: Sized, const D: usize, V: RawVector<T, D>, I, VA: SizedVectorArray<T
     }
 }
 
+/// The mutable fast accessor. Contains a mutable reference to the array, and
+/// the dimension to get from the vectors.
 pub struct FastAccessorMut<
     'a,
     T: Sized,
@@ -106,7 +111,8 @@ impl<'a, T: Sized, const D: usize, V: RawVector<T, D>, I, VA: SizedVectorArray<T
         // the first dimension MUST be at the memory offset of the object, and it MUST not have padding
         // in-between dimensions
         unsafe {
-            (self.array_ref.ptr().add(idx) as *const T).add(self.dim)
+            (self.array_ref.ptr().add(idx) as *const T)
+                .add(self.dim)
                 .as_ref()
         }
     }
@@ -123,7 +129,8 @@ impl<'a, T: Sized, const D: usize, V: RawVector<T, D>, I, VA: SizedVectorArray<T
         // the first dimension MUST be at the memory offset of the object, and it MUST not have padding
         // in-between dimensions
         unsafe {
-            (self.array_ref.ptr().add(idx) as *mut T).add(self.dim)
+            (self.array_ref.ptr().add(idx) as *mut T)
+                .add(self.dim)
                 .as_mut()
         }
     }

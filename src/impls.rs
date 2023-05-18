@@ -140,7 +140,7 @@ impl<T, const D: usize> Vector<T, D> for [T; D] {
 
 unsafe impl<T, const D: usize> RawVector<T, D> for [T; D] {}
 
-// no SizedVector here, as Vec is not aligned properly for that.
+/// no [`RawVector`] here, as Vec is not aligned properly for that.
 impl<T, const D: usize> Vector<T, D> for Vec<T> {
     fn get<'a>(&'a self, index: usize) -> Option<&'a T> {
         <[T]>::get(self, index)
