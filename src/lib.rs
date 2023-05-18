@@ -1,3 +1,4 @@
+#![allow(clippy::needless_lifetimes)]
 pub mod accessors;
 pub mod fast_accessor;
 mod impls;
@@ -34,7 +35,7 @@ pub trait VectorArray<T: ?Sized, const D: usize, V: Vector<T, D>, I>: Sized {
         // array will be left alone. This means one part of RAM will only be accessible once.
         unsafe {
             for i in 0..D {
-                array.push(SafeAccessorMut::new(mem::transmute(self as *mut _), i));
+                array.push(SafeAccessorMut::new(&mut *(self as *mut _), i));
             }
         }
         let mut array = array.into_iter();
@@ -48,6 +49,9 @@ pub trait SizedVectorArray<T: Sized, const D: usize, V: RawVector<T, D>, I>:
     fn ptr(&self) -> *const V;
     fn ptr_mut(&mut self) -> *mut V;
     fn len(&self) -> usize;
+    fn is_empty(&self) -> bool {
+        self.len() == 0
+    }
     /// Please make this inline for speed
     fn convert_index(&self, index: I) -> usize;
 
@@ -66,7 +70,7 @@ pub trait SizedVectorArray<T: Sized, const D: usize, V: RawVector<T, D>, I>:
         // array will be left alone. This means one part of RAM will only be accessible once.
         unsafe {
             for i in 0..D {
-                array.push(FastAccessorMut::new(mem::transmute(self as *mut _), i));
+                array.push(FastAccessorMut::new(&mut *(self as *mut _), i));
             }
         }
         let mut array = array.into_iter();
@@ -74,7 +78,9 @@ pub trait SizedVectorArray<T: Sized, const D: usize, V: RawVector<T, D>, I>:
     }
 }
 
-/// SAFETY: MUST have no extra items before first dimension in memory, MUST
+/// # Safety
+///
+/// MUST have no extra items before first dimension in memory, MUST
 /// not have padding between items!! This means Vec, for example, is **NOT**
 /// fit for this trait. [T; D], for example, works.
 pub unsafe trait RawVector<T: Sized, const D: usize>: Vector<T, D> {}

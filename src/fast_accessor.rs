@@ -49,8 +49,7 @@ impl<'a, T: Sized, const D: usize, V: RawVector<T, D>, I, VA: SizedVectorArray<T
         // the first dimension MUST be at the memory offset of the object, and it MUST not have padding
         // in-between dimensions
         unsafe {
-            (self.array_ref.ptr().offset(idx as isize) as *const T)
-                .offset(self.dim as isize)
+            (self.array_ref.ptr().add(idx) as *const T).add(self.dim)
                 .as_ref()
         }
     }
@@ -107,8 +106,7 @@ impl<'a, T: Sized, const D: usize, V: RawVector<T, D>, I, VA: SizedVectorArray<T
         // the first dimension MUST be at the memory offset of the object, and it MUST not have padding
         // in-between dimensions
         unsafe {
-            (self.array_ref.ptr().offset(idx as isize) as *const T)
-                .offset(self.dim as isize)
+            (self.array_ref.ptr().add(idx) as *const T).add(self.dim)
                 .as_ref()
         }
     }
@@ -125,8 +123,7 @@ impl<'a, T: Sized, const D: usize, V: RawVector<T, D>, I, VA: SizedVectorArray<T
         // the first dimension MUST be at the memory offset of the object, and it MUST not have padding
         // in-between dimensions
         unsafe {
-            (self.array_ref.ptr().offset(idx as isize) as *mut T)
-                .offset(self.dim as isize)
+            (self.array_ref.ptr().add(idx) as *mut T).add(self.dim)
                 .as_mut()
         }
     }
